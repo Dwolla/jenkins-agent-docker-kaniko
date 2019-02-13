@@ -15,7 +15,11 @@ LABEL maintainer="Dwolla Dev <dev+jenkins-agent-kaniko@dwolla.com>" \
 
 COPY --from=kaniko /kaniko /kaniko
 
+# kaniko requires we run as root.
 USER root
-RUN chown -R jenkins /kaniko 
 
-USER jenkins
+# The /workspace directory is whitelisted when building images, so it's where we
+# perform all our desired work.
+RUN mkdir -p /workspace
+
+WORKDIR /workspace
