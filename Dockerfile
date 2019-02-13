@@ -13,13 +13,16 @@ LABEL maintainer="Dwolla Dev <dev+jenkins-agent-kaniko@dwolla.com>" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.version=$VERSION
 
+# We disable the JVM perfdata feature by adding `-XX:-UsePerfData` to the
+# `JAVA_OPTS` environment variable. Otherwise an additional
+# `/tmp/hsperfdata_root` directory will show up in images we create.
+ENV JAVA_OPTS -XX:-UsePerfData
+
 COPY --from=kaniko /kaniko /kaniko
 
 # kaniko requires we run as root.
 USER root
 
-# The /workspace directory is whitelisted when building images, so it's where we
+# The /kaniko directory is whitelisted when building images, so it's where we
 # perform all our desired work.
-RUN mkdir -p /workspace
-
-WORKDIR /workspace
+WORKDIR /kaniko
