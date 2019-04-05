@@ -9,19 +9,45 @@ ARG VERSION
 
 LABEL maintainer="Dwolla Dev <dev+jenkins-agent-kaniko@dwolla.com>" \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vcs-url="https://github.com/Dwolla/jenkins-agent-docker-kaniko" \
+    org.label-schema.vcs-url=$VCS_URL \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.version=$VERSION
 
-# We disable the JVM perfdata feature by adding `-XX:-UsePerfData` to the
-# `JAVA_OPTS` environment variable. Otherwise an additional
+# apk and kaniko must be run as root.
+USER root
+
+# Install base packages
+RUN apk update && apk upgrade
+RUN apk add --no-cache --update \
+      build-base \
+      make
+
+# Install Ruby
+# This command was taken from cybercode/alpine-ruby:
+# https://github.com/cybercode/alpine-ruby
+RUN apk add --no-cache --update \
+      ca-certificates \
+      libstdc++ \
+      ruby \
+      ruby-bigdecimal \
+      ruby-bundler \
+      ruby-dev \
+      ruby-io-console \
+      ruby-irb \
+      ruby-json \
+      ruby-rake \
+      tzdata \
+      && echo 'gem: --no-document' > /etc/gemrc
+
+# Install Berkshelf
+RUN gem install --no-rdoc --no-ri berkshelf
+
+# We disable the JVM PerfDataFile feature by adding `-XX:-UsePerfData` to the
+# `JAVA_OPTS` environment variable. Otherwise, an additional
 # `/tmp/hsperfdata_root` directory will show up in images we create.
 ENV JAVA_OPTS -XX:-UsePerfData
 
 COPY --from=kaniko /kaniko /kaniko
-
-# kaniko requires we run as root.
-USER root
 
 # The /kaniko directory is whitelisted when building images, so it's where we
 # perform all our desired work.
