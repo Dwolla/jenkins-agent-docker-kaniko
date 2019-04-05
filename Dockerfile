@@ -1,4 +1,4 @@
-FROM gcr.io/kaniko-project/executor:v0.7.0 as kaniko
+FROM gcr.io/kaniko-project/executor:v0.9.0 as kaniko
 
 FROM dwolla/jenkins-agent-core:alpine
 
