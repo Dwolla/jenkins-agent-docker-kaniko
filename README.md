@@ -29,8 +29,21 @@ Hub build process. To build the image locally, run `./hooks/build`.
 
 ## Notes
 
+### `UsePerfData`
+
 When invoking `agent.jar` specify `/kaniko` for the `-workDir` option. This
 ensures artifacts included by Jenkins will be whitelisted by `kaniko`. Also,
 if specifying custom options for `JAVA_OPTS`, avoid the use of
 `-XX:+UsePerfData`. Otherwise, a `/tmp/hsperfdata_root` directory will be
 included in the resulting image.
+
+### Invoking `agent.jar`
+
+`jenkins-agent-docker-core:alpine` creates an `ENTRYPOINT` for the Jenkins
+Remoting JAR (`agent.jar`). The Jenkins Remoting JAR can be invoked using the
+following command:
+
+```bash
+docker run dwolla/jenkins-agent-kaniko:latest
+  -url https://ci.dwolla.net/ <SLAVE_NODE_SECRET> <SLAVE_NODE_NAME>
+```
