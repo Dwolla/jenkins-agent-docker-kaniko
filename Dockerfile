@@ -17,7 +17,6 @@ LABEL maintainer="Dwolla Dev <dev+jenkins-agent-kaniko@dwolla.com>" \
 USER root
 
 # Install base packages
-RUN apk update && apk upgrade
 RUN apk add --no-cache --update \
       build-base \
       make
