@@ -1,5 +1,7 @@
 FROM gcr.io/kaniko-project/executor:v0.9.0 as kaniko
 
+FROM dwolla/staticbox:latest as staticbox
+
 FROM dwolla/jenkins-agent-core:alpine
 
 ARG VCS_REF
@@ -47,7 +49,16 @@ RUN gem install --no-rdoc --no-ri berkshelf
 ENV JAVA_OPTS -XX:-UsePerfData
 
 COPY --from=kaniko /kaniko /kaniko
+COPY --from=staticbox /staticbox /staticbox
 
-# The /kaniko directory is whitelisted when building images, so it's where we
-# perform all our desired work.
+ENV PATH=/staticbox/bin:$PATH
+
+# Docker volumes include an entry in /proc/self/mountinfo. This file is used
+# when kaniko builds the list of whitelisted directories. Whitelisted
+# directories are persisted between stages and are not included in the final
+# Docker image.
+VOLUME /staticbox
+
+# The /kaniko directory is whitelisted by default. Its contents is not deleted
+# between stages, nor is it included in the final Docker image.
 WORKDIR /kaniko
