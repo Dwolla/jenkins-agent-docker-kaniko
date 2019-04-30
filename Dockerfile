@@ -38,6 +38,10 @@ RUN apk add --no-cache --update \
       tzdata \
       && echo 'gem: --no-document' > /etc/gemrc
 
+# Address 'java.io.FileNotFoundException: /usr/lib/libnss3.so' issue
+# https://bugs.alpinelinux.org/issues/10126
+RUN apk add --no-cache nss
+
 # Install Berkshelf
 RUN gem install --no-rdoc --no-ri berkshelf
 
