@@ -4,4 +4,4 @@
 # them ourselves.
 : "${GIT_SHA1:=$(git rev-parse -q HEAD)}"
 : "${DOCKER_REPO:=dwolla/jenkins-agent-kaniko}"
-: "${IMAGE_NAME:=dwolla/jenkins-agent-kaniko:${GIT_SHA1}-SNAPSHOT}"
+: "${IMAGE_NAME:=${DOCKER_REPO}:${GIT_SHA1}-SNAPSHOT}"
