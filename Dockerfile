@@ -2,7 +2,7 @@ FROM gcr.io/kaniko-project/executor:v0.9.0 as kaniko
 
 FROM busybox:1.30.1 as busybox
 
-FROM dwolla/jenkins-agent-core:alpine
+FROM dwolla/jenkins-agent-core:debian
 
 ARG VCS_REF
 ARG VCS_URL
@@ -19,33 +19,15 @@ LABEL maintainer="Dwolla Dev <dev+jenkins-agent-kaniko@dwolla.com>" \
 USER root
 
 # Install base packages
-RUN apk add --no-cache --update \
-      build-base \
-      make
-
-# Install Ruby
-# This command was taken from cybercode/alpine-ruby:
-# https://github.com/cybercode/alpine-ruby
-RUN apk add --no-cache --update \
-      ca-certificates \
-      libstdc++ \
-      ruby \
-      ruby-bigdecimal \
-      ruby-bundler \
-      ruby-dev \
-      ruby-io-console \
-      ruby-irb \
-      ruby-json \
-      ruby-rake \
-      tzdata \
-      && echo 'gem: --no-document' > /etc/gemrc
-
-# Address 'java.io.FileNotFoundException: /usr/lib/libnss3.so' issue
-# https://bugs.alpinelinux.org/issues/10126
-RUN apk add --no-cache nss
-
-# Install Berkshelf
-RUN gem install --no-rdoc --no-ri berkshelf
+RUN apt-get update && \
+    apt-get remove -y python && \
+    apt autoremove -y && \
+    apt-get install -y --no-install-recommends \
+                ca-certificates \
+                ca-certificates-java \
+                libnss3 \
+      && \
+    apt-get clean
 
 # We disable the JVM PerfDataFile feature by adding `-XX:-UsePerfData` to the
 # `JAVA_OPTS` environment variable. Otherwise, an additional
