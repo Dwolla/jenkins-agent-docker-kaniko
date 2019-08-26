@@ -1,6 +1,6 @@
 FROM gcr.io/kaniko-project/executor:v0.11.0 as kaniko
 
-FROM busybox:1.31-glibc as busybox
+FROM busybox:1.30-glibc as busybox
 
 FROM dwolla/jenkins-agent-core:debian
 
