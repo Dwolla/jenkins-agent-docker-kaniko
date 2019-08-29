@@ -1,9 +1,9 @@
 # Jenkins Agent Docker Kaniko
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dwolla/jenkins-agent-docker-kaniko?color=blue)
-[![](https://images.microbadger.com/badges/image/dwolla/jenkins-agent-docker-kaniko.svg)](https://microbadger.com/images/dwolla/jenkins-agent-kaniko)
-[![](https://images.microbadger.com/badges/version/dwolla/jenkins-agent-docker-kaniko.svg)](https://microbadger.com/images/dwolla/jenkins-agent-kaniko)
-![GitHub](https://img.shields.io/github/license/NickolasHKraus/jenkins-agent-docker-kaniko?color=blue)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dwolla/jenkins-agent-kaniko?color=blue)
+[![](https://images.microbadger.com/badges/image/dwolla/jenkins-agent-kaniko.svg)](https://microbadger.com/images/dwolla/jenkins-agent-kaniko)
+[![](https://images.microbadger.com/badges/version/dwolla/jenkins-agent-kaniko.svg)](https://microbadger.com/images/dwolla/jenkins-agent-kaniko)
+![GitHub](https://img.shields.io/github/license/Dwolla/jenkins-agent-docker-kaniko?color=blue)
 
 [Docker Hub](https://cloud.docker.com/u/dwolla/repository/docker/dwolla/jenkins-agent-kaniko)
 
